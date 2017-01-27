@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Odbijająca się piłka</title>
+</head>
+<body>
+
+<canvas id="płótno" width="200" height="200"></canvas>
+
+<script>
+
+//pozycja piłki i jej szybkość
+var piłka = function () {
+this.x = 100;
+this.y = 100;
+this.xSzybkość = -2;
+this.ySzybkość = 3;
+};
+
+//Rysowanie piłki
+var okrąg = function (x, y, promień, wypełnijOkrąg) {
+kontekst.beginPath();
+kontekst.arc(x, y, promień, Math.PI * 2, false)
+if (wypełnijOkrąg) {
+kontekst.fill();
+} else {
+	kontekst.stroke();
+ }
+};
+
+Piłka.prototype.rysuj = function () {
+okrąg(this.x, this.y, 3, true);	
+};
+
+//Przesuwanie piłki
+Piłka.prototype.przesuwaj = function () {
+this.x += this.xSzybkość;
+this.y += this.ySzybkość;
+};
+
+//Sprawdzanie kolizji
+Piłka.prototype.sprawdajKolizje = function () {
+if (this.x < 0 || this.x > 200) {
+	this.xSzybkość = -this.xSzybkość;
+}
+if (this.y < 0 || this.y > 200) {
+	this.ySzybkość = -this.ySzybkość;
+}
+};
+
+//Animowanie piłki
+var płótno.getElementById("płótno");
+var kontekst = płótno.getContext("2d");
+
+var piłka = new Piłka();
+
+setInterval(function () {
+	kontekst.clearRect(0, 0, 200, 200);
+
+piłka.rysuj();
+piłka.przesuwaj();
+piłka.sprawdajKolizje();
+
+kontekst;strokeRect(0, 0, 200, 200);
+}, 30);
+</script>
+</body>
+</html>
